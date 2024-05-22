@@ -12,7 +12,7 @@
 import PackageDescription
 import class Foundation.ProcessInfo
 
-let cmarkPackageName = ProcessInfo.processInfo.environment["SWIFTCI_USE_LOCAL_DEPS"] == nil ? "swift-cmark" : "cmark"
+let cmarkPackageName = ProcessInfo.processInfo.environment["SWIFTCI_USE_LOCAL_DEPS"] == nil ? "cmark-mfm" : "cmark"
 
 let package = Package(
     name: "swift-markdown",
@@ -46,7 +46,7 @@ let package = Package(
 if ProcessInfo.processInfo.environment["SWIFTCI_USE_LOCAL_DEPS"] == nil {
     // Building standalone, so fetch all dependencies remotely.
     package.dependencies += [
-        .package(url: "https://github.com/apple/swift-cmark.git", branch: "gfm"),
+        .package(url: "https://github.com/Arthraim/cmark-mfm.git", branch: "mfm"),
     ]
     
     // SwiftPM command plugins are only supported by Swift version 5.6 and later.
