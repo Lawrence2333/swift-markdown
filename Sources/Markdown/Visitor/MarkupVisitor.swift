@@ -220,6 +220,14 @@ public protocol MarkupVisitor<Result> {
     mutating func visitStrikethrough(_ strikethrough: Strikethrough) -> Result
 
     /**
+     Visit a `Ragtag` element and return the result.
+
+     - parameter ragtag: A `Ragtag` element.
+     - returns: The result of the visit.
+     */
+    mutating func visitRagtag(_ ragtag: Ragtag) -> Result
+
+    /**
      Visit a `Table` element and return the result.
 
      - parameter table: A `Table` element.
@@ -383,6 +391,9 @@ extension MarkupVisitor {
     }
     public mutating func visitStrikethrough(_ strikethrough: Strikethrough) -> Result {
         return defaultVisit(strikethrough)
+    }
+    public mutating func visitRagtag(_ ragtag: Ragtag) -> Result {
+        return defaultVisit(ragtag)
     }
     public mutating func visitTable(_ table: Table) -> Result {
         return defaultVisit(table)

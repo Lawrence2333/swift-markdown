@@ -882,6 +882,12 @@ public struct MarkupFormatter: MarkupWalker {
         print("~", for: strikethrough)
     }
 
+    public mutating func visitRagtag(_ ragtag: Ragtag) {
+        print("^", for: ragtag)
+        descendInto(ragtag)
+        print("^", for: ragtag)
+    }
+
     /// Format a table as an indivisible unit.
     ///
     /// Because tables likely print multiple cells of inline content next

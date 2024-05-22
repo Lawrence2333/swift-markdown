@@ -8,6 +8,7 @@
 - ``Link``
 - ``Strikethrough``
 - ``Strong``
+- ``Ragtag``
 
 ### Inline Leaves
 - ``CustomInline``
