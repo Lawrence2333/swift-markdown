@@ -45,12 +45,12 @@ if(NOT ArgumentParser_FOUND)
   list(APPEND _SM_VENDOR_DEPENDENCIES ArgumentParser)
 endif()
 
-find_package(cmark-gfm CONFIG)
-if(NOT cmark-gfm_FOUND)
-  FetchContent_Declare(cmark-gfm
-    GIT_REPOSITORY https://github.com/apple/swift-cmark
-    GIT_TAG gfm)
-  list(APPEND _SM_VENDOR_DEPENDENCIES cmark-gfm)
+find_package(cmark-mfm CONFIG)
+if(NOT cmark-mfm_FOUND)
+  FetchContent_Declare(cmark-mfm
+    GIT_REPOSITORY https://github.com/Arthraim/cmark-mfm
+    GIT_TAG mfm)
+  list(APPEND _SM_VENDOR_DEPENDENCIES cmark-mfm)
 endif()
 
 if(_SM_VENDOR_DEPENDENCIES)

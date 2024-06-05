@@ -44,6 +44,15 @@ public protocol MarkupVisitor<Result> {
     mutating func visitBlockQuote(_ blockQuote: BlockQuote) -> Result
 
     /**
+     Visit a `MathBlock` element and return the result.
+
+     - parameter mathBlock: An `MathBlock` element.
+     - returns: The result of the visit.
+     */
+    mutating func visitMathBlock(_ mathBlock: MathBlock) -> Result
+
+
+    /**
      Visit a `CodeBlock` element and return the result.
 
      - parameter codeBlock: An `CodeBlock` element.
@@ -325,6 +334,9 @@ extension MarkupVisitor {
     }
     public mutating func visitBlockQuote(_ blockQuote: BlockQuote) -> Result {
         return defaultVisit(blockQuote)
+    }
+    public mutating func visitMathBlock(_ mathBlock: MathBlock) -> Result {
+        return defaultVisit(mathBlock)
     }
     public mutating func visitCodeBlock(_ codeBlock: CodeBlock) -> Result {
         return defaultVisit(codeBlock)

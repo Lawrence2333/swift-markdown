@@ -38,6 +38,7 @@ fileprivate enum CommonMarkNodeType: String {
     case blockQuote = "block_quote"
     case list
     case item
+    case mathBlock = "math_block"
     case codeBlock = "code_block"
     case htmlBlock = "html_block"
     case customBlock = "custom_block"
@@ -187,6 +188,8 @@ struct MarkupParser {
             return convertList(state)
         case .item:
             return convertListItem(state)
+        case .mathBlock:
+            return convertMathBlock(state)
         case .codeBlock:
             return convertCodeBlock(state)
         case .htmlBlock:
@@ -245,6 +248,13 @@ struct MarkupParser {
     /// - parameter node: An opaque pointer to a `cmark_node`.
     private static func getLiteralContent(node: UnsafeMutablePointer<cmark_node>!) -> String {
         guard let rawText = cmark_node_get_literal(node) else {
+            fatalError("Expected literal content for cmark node but got null pointer")
+        }
+        return String(cString: rawText)
+    }
+
+    private static func getStringContent(node: UnsafeMutablePointer<cmark_node>!) -> String {
+        guard let rawText = cmark_node_get_string_content(node) else {
             fatalError("Expected literal content for cmark node but got null pointer")
         }
         return String(cString: rawText)
@@ -320,6 +330,17 @@ struct MarkupParser {
         precondition(childConversion.state.node == state.node)
         precondition(childConversion.state.event == CMARK_EVENT_EXIT)
         return MarkupConversion(state: childConversion.state.next(), result: .listItem(checkbox: .none, parsedRange: parsedRange, childConversion.result))
+    }
+
+    private static func convertMathBlock(_ state: MarkupConverterState) -> MarkupConversion<RawMarkup> {
+        precondition(state.event == CMARK_EVENT_ENTER)
+        precondition(state.nodeType == .mathBlock)
+        let parsedRange = state.range(state.node)
+        let childConversion = convertChildren(state)
+        precondition(childConversion.state.node == state.node)
+        precondition(childConversion.state.event == CMARK_EVENT_EXIT)
+        let literalContent = getStringContent(node: state.node)
+        return MarkupConversion(state: childConversion.state.next(), result: .mathBlock(parsedRange: parsedRange, math: literalContent, childConversion.result))
     }
 
     private static func convertCodeBlock(_ state: MarkupConverterState) -> MarkupConversion<RawMarkup> {
@@ -634,10 +655,12 @@ struct MarkupParser {
         
         let parser = cmark_parser_new(cmarkOptions)
         
+        #warning("ADD NEW EXTENSION HERE!")
         cmark_parser_attach_syntax_extension(parser, cmark_find_syntax_extension("table"))
         cmark_parser_attach_syntax_extension(parser, cmark_find_syntax_extension("strikethrough"))
         cmark_parser_attach_syntax_extension(parser, cmark_find_syntax_extension("ragtag"))
         cmark_parser_attach_syntax_extension(parser, cmark_find_syntax_extension("tasklist"))
+        cmark_parser_attach_syntax_extension(parser, cmark_find_syntax_extension("math"))
         cmark_parser_feed(parser, string, string.utf8.count)
         let rawDocument = cmark_parser_finish(parser)
         let initialState = MarkupConverterState(source: source, iterator: cmark_iter_new(rawDocument), event: CMARK_EVENT_NONE, node: nil, options: options, headerSeen: false, pendingTableBody: nil).next()

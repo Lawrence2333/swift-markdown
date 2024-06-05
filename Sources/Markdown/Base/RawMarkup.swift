@@ -17,6 +17,7 @@ import Foundation
 /// For example, a `Document` can't contain another `Document` and lists can only contain `ListItem`s as children. Since `RawMarkup` is a single type, these are enforced through preconditions; however, those rules are enforced as much as possible at compile time in the various `Markup` types.
 enum RawMarkupData: Equatable {
     case blockQuote
+    case mathBlock(String)
     case codeBlock(String, language: String?)
     case customBlock
     case document
@@ -205,6 +206,10 @@ final class RawMarkup: ManagedBuffer<RawMarkupHeader, RawMarkup> {
 
     static func blockQuote(parsedRange: SourceRange?, _ children: [RawMarkup]) -> RawMarkup {
         return .create(data: .blockQuote, parsedRange: parsedRange, children: children)
+    }
+
+    static func mathBlock(parsedRange: SourceRange?, math: String, _ children: [RawMarkup]) -> RawMarkup {
+        return .create(data: .mathBlock(math), parsedRange: parsedRange, children: children)
     }
 
     static func codeBlock(parsedRange: SourceRange?, code: String, language: String?) -> RawMarkup {

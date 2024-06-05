@@ -13,6 +13,8 @@ func makeMarkup(_ data: _MarkupData) -> Markup {
     switch data.raw.markup.data {
     case .blockQuote:
         return BlockQuote(data)
+    case .mathBlock:
+        return MathBlock(data)
     case .codeBlock:
         return CodeBlock(data)
     case .customBlock:

@@ -18,6 +18,7 @@
 - ``HTMLBlock``
 - ``ThematicBreak``
 - ``CodeBlock``
+- ``MathBlock``
 
 ### Tables
 

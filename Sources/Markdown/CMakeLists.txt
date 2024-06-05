@@ -29,6 +29,7 @@ add_library(Markdown
   "Block Nodes/Block Container Blocks/UnorderedList.swift"
   "Block Nodes/Inline Container Blocks/Paragraph.swift"
   "Block Nodes/Leaf Blocks/CodeBlock.swift"
+  "Block Nodes/Leaf Blocks/MathBlock.swift"
   "Block Nodes/Leaf Blocks/Heading.swift"
   "Block Nodes/Leaf Blocks/HTMLBlock.swift"
   "Block Nodes/Leaf Blocks/ThematicBreak.swift"

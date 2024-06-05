@@ -21,6 +21,9 @@ extension MarkupRewriter {
     public mutating func visitBlockQuote(_ blockQuote: BlockQuote) -> Result {
         return defaultVisit(blockQuote)
     }
+    public mutating func visitMathBlock(_ mathBlock: MathBlock) -> Result {
+        return defaultVisit(mathBlock)
+    }
     public mutating func visitCodeBlock(_ codeBlock: CodeBlock) -> Result {
         return defaultVisit(codeBlock)
     }

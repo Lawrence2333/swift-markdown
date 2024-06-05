@@ -46,6 +46,13 @@ fileprivate extension String {
     }
 }
 
+fileprivate extension MathBlock {
+    /// The code contents split by newline (`\n`), dropping leading and trailing lines that are empty.
+    var trimmedLineSegments: ArraySlice<Substring> {
+        return math.trimmedLineSegments
+    }
+}
+
 fileprivate extension CodeBlock {
     /// The code contents split by newline (`\n`), dropping leading and trailing lines that are empty.
     var trimmedLineSegments: ArraySlice<Substring> {
@@ -635,6 +642,16 @@ public struct MarkupFormatter: MarkupWalker {
             ensurePrecedingNewlineCount(atLeast: 2)
         }
         descendInto(paragraph)
+    }
+
+    public mutating func visitMathBlock(_ mathBlock: MathBlock) {
+        if mathBlock.indexInParent > 0 {
+            ensurePrecedingNewlineCount(atLeast: 2)
+        }
+        for lineSegment in mathBlock.trimmedLineSegments {
+            print(lineSegment, for: mathBlock)
+            queueNewline()
+        }
     }
 
     public mutating func visitCodeBlock(_ codeBlock: CodeBlock) {

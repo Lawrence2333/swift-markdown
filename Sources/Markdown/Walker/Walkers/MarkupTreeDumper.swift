@@ -197,6 +197,10 @@ struct MarkupTreeDumper: MarkupWalker {
         }
     }
 
+    mutating func visitMathBlock(_ mathBlock: MathBlock) {
+        dump(mathBlock, customDescription: "\n\(indentLiteralBlock(mathBlock.math, from: mathBlock))")
+    }
+
     mutating func visitCodeBlock(_ codeBlock: CodeBlock) {
         let lines = indentLiteralBlock(codeBlock.code, from: codeBlock, countLines: false)
         dump(codeBlock, customDescription: "language: \(codeBlock.language ?? "none")\n\(lines)")

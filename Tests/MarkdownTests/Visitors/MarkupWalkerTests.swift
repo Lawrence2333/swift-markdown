@@ -88,6 +88,10 @@ final class MarkupWalkerTests: XCTestCase {
                 count += 1
                 descendInto(blockQuote)
             }
+            mutating func visitMathQuote(_ mathBlock: MathQuote) -> () {
+                count += 1
+                descendInto(mathBlock)
+            }
             mutating func visitInlineCode(_ inlineCode: InlineCode) -> () {
                 count += 1
                 descendInto(inlineCode)
