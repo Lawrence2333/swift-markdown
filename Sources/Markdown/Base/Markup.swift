@@ -15,6 +15,8 @@ func makeMarkup(_ data: _MarkupData) -> Markup {
         return BlockQuote(data)
     case .mathBlock:
         return MathBlock(data)
+    case .math:
+        return Math(data)
     case .codeBlock:
         return CodeBlock(data)
     case .customBlock:

@@ -905,6 +905,12 @@ public struct MarkupFormatter: MarkupWalker {
         print("^", for: ragtag)
     }
 
+    public mutating func visitMath(_ math: Math) {
+        print("^", for: math)
+        descendInto(math)
+        print("^", for: math)
+    }
+
     /// Format a table as an indivisible unit.
     ///
     /// Because tables likely print multiple cells of inline content next

@@ -9,6 +9,7 @@
 - ``Strikethrough``
 - ``Strong``
 - ``Ragtag``
+- ``Math``
 
 ### Inline Leaves
 - ``CustomInline``

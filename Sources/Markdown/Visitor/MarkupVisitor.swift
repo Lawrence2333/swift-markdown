@@ -237,6 +237,14 @@ public protocol MarkupVisitor<Result> {
     mutating func visitRagtag(_ ragtag: Ragtag) -> Result
 
     /**
+     Visit a `Math` element and return the result.
+
+     - parameter math: A `Math` element.
+     - returns: The result of the visit.
+     */
+    mutating func visitMath(_ math: Math) -> Result
+
+    /**
      Visit a `Table` element and return the result.
 
      - parameter table: A `Table` element.
@@ -406,6 +414,9 @@ extension MarkupVisitor {
     }
     public mutating func visitRagtag(_ ragtag: Ragtag) -> Result {
         return defaultVisit(ragtag)
+    }
+    public mutating func visitMath(_ math: Math) -> Result {
+        return defaultVisit(math)
     }
     public mutating func visitTable(_ table: Table) -> Result {
         return defaultVisit(table)
