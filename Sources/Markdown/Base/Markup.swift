@@ -63,6 +63,8 @@ func makeMarkup(_ data: _MarkupData) -> Markup {
         return Strikethrough(data)
     case .ragtag:
         return Ragtag(data)
+    case .refhighlight:
+        return RefHighlight(data)
     case .table:
         return Table(data)
     case .tableRow:

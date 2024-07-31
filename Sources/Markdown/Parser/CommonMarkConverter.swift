@@ -62,6 +62,7 @@ fileprivate enum CommonMarkNodeType: String {
 
     case strikethrough
     case ragtag
+    case refhighlight
     case mathBlock = "math_block"
     case math
 
@@ -227,6 +228,8 @@ struct MarkupParser {
             return convertStrikethrough(state)
         case .ragtag:
             return convertRagtag(state)
+        case .refhighlight:
+            return convertRefHighlight(state)
         case .math:
             return convertMath(state)
         case .taskListItem:
@@ -531,6 +534,16 @@ struct MarkupParser {
         precondition(childConversion.state.event == CMARK_EVENT_EXIT)
         return MarkupConversion(state: childConversion.state.next(), result: .ragtag(parsedRange: parsedRange, childConversion.result))
     }
+    
+    private static func convertRefHighlight(_ state: MarkupConverterState) -> MarkupConversion<RawMarkup> {
+        precondition(state.event == CMARK_EVENT_ENTER)
+        precondition(state.nodeType == .refhighlight)
+        let parsedRange = state.range(state.node)
+        let childConversion = convertChildren(state)
+        precondition(childConversion.state.node == state.node)
+        precondition(childConversion.state.event == CMARK_EVENT_EXIT)
+        return MarkupConversion(state: childConversion.state.next(), result: .refhighlight(parsedRange: parsedRange, childConversion.result))
+    }
 
     private static func convertMath(_ state: MarkupConverterState) -> MarkupConversion<RawMarkup> {
         precondition(state.event == CMARK_EVENT_ENTER)
@@ -670,6 +683,7 @@ struct MarkupParser {
         
         #warning("ADD NEW EXTENSION HERE!")
         cmark_parser_attach_syntax_extension(parser, cmark_find_syntax_extension("strikethrough"))
+        cmark_parser_attach_syntax_extension(parser, cmark_find_syntax_extension("refhighlight"))
         cmark_parser_attach_syntax_extension(parser, cmark_find_syntax_extension("ragtag"))
         cmark_parser_attach_syntax_extension(parser, cmark_find_syntax_extension("tasklist"))
         cmark_parser_attach_syntax_extension(parser, cmark_find_syntax_extension("math"))
