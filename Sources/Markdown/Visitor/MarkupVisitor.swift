@@ -237,9 +237,9 @@ public protocol MarkupVisitor<Result> {
     mutating func visitRagtag(_ ragtag: Ragtag) -> Result
 
     /**
-     Visit a `Ragtag` element and return the result.
+     Visit a `RefHighlight` element and return the result.
 
-     - parameter ragtag: A `Ragtag` element.
+     - parameter refhighlight: A `RefHighlight` element.
      - returns: The result of the visit.
      */
     mutating func visitRefHighlight(_ refhighlight: RefHighlight) -> Result
