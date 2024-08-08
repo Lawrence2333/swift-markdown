@@ -8,6 +8,7 @@
 - ``Link``
 - ``Strikethrough``
 - ``Strong``
+- ``RefHighlight``
 - ``Ragtag``
 - ``Math``
 

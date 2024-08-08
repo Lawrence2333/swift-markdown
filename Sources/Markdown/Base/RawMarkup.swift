@@ -45,6 +45,7 @@ enum RawMarkupData: Equatable {
     // Extensions
     case strikethrough
     case ragtag
+    case refhighlight
     case mathBlock(String)
     case math
 
@@ -315,6 +316,10 @@ final class RawMarkup: ManagedBuffer<RawMarkupHeader, RawMarkup> {
 
     static func ragtag(parsedRange: SourceRange?, _ children: [RawMarkup]) -> RawMarkup {
         return .create(data: .ragtag, parsedRange: parsedRange, children: children)
+    }
+    
+    static func refhighlight(parsedRange: SourceRange?, _ children: [RawMarkup]) -> RawMarkup {
+        return .create(data: .refhighlight, parsedRange: parsedRange, children: children)
     }
 
     static func math(parsedRange: SourceRange?, _ children: [RawMarkup]) -> RawMarkup {

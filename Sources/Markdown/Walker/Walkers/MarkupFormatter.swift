@@ -904,6 +904,12 @@ public struct MarkupFormatter: MarkupWalker {
         descendInto(ragtag)
         print("^", for: ragtag)
     }
+    
+    public mutating func visitRefHighlight(_ refhighlight: RefHighlight) {
+        print("$", for: refhighlight)
+        descendInto(refhighlight)
+        print("$", for: refhighlight)
+    }
 
     public mutating func visitMath(_ math: Math) {
         print("^", for: math)
