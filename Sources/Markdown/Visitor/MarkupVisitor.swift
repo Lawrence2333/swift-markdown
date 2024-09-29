@@ -245,6 +245,14 @@ public protocol MarkupVisitor<Result> {
     mutating func visitRefHighlight(_ refhighlight: RefHighlight) -> Result
 
     /**
+     Visit a `CustomTag` element and return the result.
+
+     - parameter insertImage: A `CustomTag` element.
+     - returns: The result of the visit.
+     */
+    mutating func visitCustomTag(_ customTag: CustomTag) -> Result
+
+    /**
      Visit a `Math` element and return the result.
 
      - parameter math: A `Math` element.
@@ -425,6 +433,9 @@ extension MarkupVisitor {
     }
     public mutating func visitRefHighlight(_ refhighlight: RefHighlight) -> Result {
         return defaultVisit(refhighlight)
+    }
+    public mutating func visitCustomTag(_ customTag: CustomTag) -> Result {
+        return defaultVisit(customTag)
     }
     public mutating func visitMath(_ math: Math) -> Result {
         return defaultVisit(math)

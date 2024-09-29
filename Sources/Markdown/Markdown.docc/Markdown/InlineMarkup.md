@@ -11,6 +11,7 @@
 - ``RefHighlight``
 - ``Ragtag``
 - ``Math``
+- ``CustomTag``
 
 ### Inline Leaves
 - ``CustomInline``

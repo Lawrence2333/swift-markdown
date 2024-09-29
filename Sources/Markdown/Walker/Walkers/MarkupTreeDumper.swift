@@ -294,4 +294,8 @@ struct MarkupTreeDumper: MarkupWalker {
     mutating func visitDoxygenParameter(_ doxygenParam: DoxygenParameter) -> () {
         dump(doxygenParam, customDescription: "parameter: \(doxygenParam.name)")
     }
+    
+    mutating func visitCustomTag(_ customTag: CustomTag) -> () {
+        dump(customTag, customDescription: "<\(customTag.tagName) \(customTag.content)/>")
+    }
 }

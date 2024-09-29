@@ -65,6 +65,8 @@ func makeMarkup(_ data: _MarkupData) -> Markup {
         return Ragtag(data)
     case .refhighlight:
         return RefHighlight(data)
+    case .customtag:
+        return CustomTag(data)
     case .table:
         return Table(data)
     case .tableRow:

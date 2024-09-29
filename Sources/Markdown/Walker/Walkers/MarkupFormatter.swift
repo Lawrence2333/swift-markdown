@@ -911,6 +911,12 @@ public struct MarkupFormatter: MarkupWalker {
         print("$", for: refhighlight)
     }
 
+    public mutating func visitCustomTag(_ customTag: CustomTag) {
+        print("<", for: customTag)
+        print("\(customTag.tagName) \(customTag.content)", for: customTag)
+        print("/>", for: customTag)
+    }
+
     public mutating func visitMath(_ math: Math) {
         print("^", for: math)
         descendInto(math)

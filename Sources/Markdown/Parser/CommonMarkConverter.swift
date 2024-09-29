@@ -63,6 +63,7 @@ fileprivate enum CommonMarkNodeType: String {
     case strikethrough
     case ragtag
     case refhighlight
+    case customtag
     case mathBlock = "math_block"
     case math
 
@@ -230,6 +231,8 @@ struct MarkupParser {
             return convertRagtag(state)
         case .refhighlight:
             return convertRefHighlight(state)
+        case .customtag:
+            return convertCustomTag(state)
         case .math:
             return convertMath(state)
         case .taskListItem:
@@ -544,6 +547,18 @@ struct MarkupParser {
         precondition(childConversion.state.event == CMARK_EVENT_EXIT)
         return MarkupConversion(state: childConversion.state.next(), result: .refhighlight(parsedRange: parsedRange, childConversion.result))
     }
+    
+    private static func convertCustomTag(_ state: MarkupConverterState) -> MarkupConversion<RawMarkup> {
+        precondition(state.event == CMARK_EVENT_ENTER)
+        precondition(state.nodeType == .customtag)
+        let parsedRange = state.range(state.node)
+        let childConversion = convertChildren(state)
+        let tagName = String(cString: cmark_node_get_custom_tag_tagname(state.node))
+        let content = String(cString: cmark_node_get_custom_tag_content(state.node))
+        precondition(childConversion.state.node == state.node)
+        precondition(childConversion.state.event == CMARK_EVENT_EXIT)
+        return MarkupConversion(state: childConversion.state.next(), result: .customtag(tagName: tagName, content: content,parsedRange: parsedRange, childConversion.result))
+    }
 
     private static func convertMath(_ state: MarkupConverterState) -> MarkupConversion<RawMarkup> {
         precondition(state.event == CMARK_EVENT_ENTER)
@@ -679,11 +694,14 @@ struct MarkupParser {
             cmarkOptions |= CMARK_OPT_SOURCEPOS
         }
         
+//        cmarkOptions |= CMARK_OPT_LIBERAL_HTML_TAG
+        
         let parser = cmark_parser_new(cmarkOptions)
         
         #warning("ADD NEW EXTENSION HERE!")
         cmark_parser_attach_syntax_extension(parser, cmark_find_syntax_extension("strikethrough"))
         cmark_parser_attach_syntax_extension(parser, cmark_find_syntax_extension("refhighlight"))
+        cmark_parser_attach_syntax_extension(parser, cmark_find_syntax_extension("customtag"))
         cmark_parser_attach_syntax_extension(parser, cmark_find_syntax_extension("ragtag"))
         cmark_parser_attach_syntax_extension(parser, cmark_find_syntax_extension("tasklist"))
         cmark_parser_attach_syntax_extension(parser, cmark_find_syntax_extension("math"))
